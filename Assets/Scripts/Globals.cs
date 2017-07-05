@@ -6,6 +6,11 @@ public class Globals : MonoBehaviour {
 
 	public static Globals Data;
 
+	[HideInInspector]
+	public Transform selectedTerritory = null;
+
+	public Transform EntityMatchWindow;
+
 	void Awake()
 	{
 		if(Data != null) GameObject.Destroy(Data);

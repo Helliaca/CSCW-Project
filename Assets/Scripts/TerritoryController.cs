@@ -13,10 +13,12 @@ public class TerritoryController : MonoBehaviour {
 	void OnMouseEnter() {
 		Renderer rend = GetComponent<Renderer>();
 		rend.material.SetColor("_Color", color_selected);
+		Globals.Data.selectedTerritory = this.transform;
 	}
 
 	void OnMouseExit() {
 		Renderer rend = GetComponent<Renderer>();
 		rend.material.SetColor("_Color", color_default);
+		Globals.Data.selectedTerritory = null;
 	}
 }
