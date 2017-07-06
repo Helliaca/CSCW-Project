@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Globals : MonoBehaviour {
 
+	public enum TEAMS {NONE, RED, BLUE};
+
 	public static Globals Data;
 
 	[HideInInspector]
+	public Transform hoverTerritory = null;
 	public Transform selectedTerritory = null;
 
 	public Transform EntityMatchWindow;
