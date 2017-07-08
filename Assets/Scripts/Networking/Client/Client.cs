@@ -6,7 +6,7 @@ using System.IO;
 using UnityEngine.UI;
 using System;
 
-public class Client : MonoBehaviour {
+public class Client {
 	
 	private bool socketReady = false;
 	private TcpClient socket;
@@ -14,21 +14,8 @@ public class Client : MonoBehaviour {
 	private StreamWriter writer;
 	private StreamReader reader;
 
-	public void ConnectToServer() {
-		//if already connected, ignore
-		if(socketReady) return;
-
-		//Default host and port values
-		string host = "127.0.0.1";
-		int port = 6321;
-
-		//Get input host and port values
-		string h;
-		int p;
-		h = GameObject.Find("HostInput").GetComponent<InputField>().text;
-		if(h!="") host = h;
-		int.TryParse(GameObject.Find("PortInput").GetComponent<InputField>().text, out p);
-		if(p!=0) port = p;
+	public void ConnectToServer(string host = "127.0.0.1", int port = 6321) {
+		if(socketReady) return; //Already connected -> ignore
 
 		//Create the socket
 		try {
@@ -39,11 +26,11 @@ public class Client : MonoBehaviour {
 			socketReady = true;
 		}
 		catch (Exception e) {
-			Debug.Log("Socket error: " + e.Message);
+			Debug.Log("ERR: Could not create socket. " + e.Message);
 		}
 	}
 
-	void Update() {
+	public void Update() {
 		if(socketReady) {
 			if(stream.DataAvailable) {
 				string data = reader.ReadLine();
@@ -55,5 +42,15 @@ public class Client : MonoBehaviour {
 
 	void OnIncomingData(string data) {
 		Debug.Log("Server: " + data);
+		string txt = GameObject.Find("Output").GetComponent<Text>().text;
+		GameObject.Find("Output").GetComponent<Text>().text = txt + "\nServer: " + data;
 	}
+
+	public void Send(string data) {
+		if(!socketReady) return;
+		writer.WriteLine(data);
+		writer.Flush();
+	}
+
+
 }

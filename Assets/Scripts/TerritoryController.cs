@@ -31,5 +31,13 @@ public class TerritoryController : MonoBehaviour {
 				GetComponent<Renderer>().material.SetColor("_Color", color_claimed);
 				break;}
 		}
+		Globals.InstanceClient.Send(MessageHandler.encode(getState())); //Send new TerritoryState to Server
+	}
+
+	TerritoryState getState() {
+		TerritoryState ts = new TerritoryState();
+		ts.owner = this.owner.ToString();
+		ts.territoryName = this.gameObject.name;
+		return ts;
 	}
 }

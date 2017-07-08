@@ -6,7 +6,7 @@ using System;
 using System.Net;
 using System.IO;
 
-public class Server : MonoBehaviour {
+public class Server {
 
 	private List<ServerClient> clients;
 	private List<ServerClient> disconnectList;
@@ -16,7 +16,8 @@ public class Server : MonoBehaviour {
 	public int port = 6321;
 
 
-	private void Start() {
+	public void Initialize(int port = 6321) {
+		this.port = port;
 		clients = new List<ServerClient>();
 		disconnectList = new List<ServerClient>();
 
@@ -33,7 +34,7 @@ public class Server : MonoBehaviour {
 	}
 
 
-	void Update() {
+	public void Update() {
 		if(!serverStarted) return;
 
 		foreach(ServerClient c in clients) {
@@ -90,9 +91,11 @@ public class Server : MonoBehaviour {
 
 	void OnIncomingData(ServerClient c, string data) {
 		Debug.Log(c.clientName + ": " + data);
+		Broadcast(data, clients);
 	}
 
 	void Broadcast(string data, List<ServerClient> cl) {
+		Debug.Log("Server: Broadcasting data:: " + data);
 		foreach(ServerClient c in cl) {
 			try {
 				StreamWriter writer = new StreamWriter(c.tcp.GetStream());
