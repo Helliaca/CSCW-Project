@@ -27,9 +27,9 @@ public class Server {
 
 			StartListening();
 			serverStarted = true;
-			Debug.Log("Server started on port " + port);
+			Globals.DevConsole.print("Server started on port " + port);
 		} catch (Exception e) {
-			Debug.Log("Socket error: " + e.Message);
+			Globals.DevConsole.print("Socket error: " + e.Message);
 		}
 	}
 
@@ -70,7 +70,7 @@ public class Server {
 		StartListening();
 
 		//Send message to everyone that someone connected
-		Broadcast(clients[clients.Count-1].clientName + " has connected", clients);
+		Broadcast(MessageHandler.encode(clients[clients.Count-1].clientName + " has connected"), clients);
 	}
 
 
@@ -90,12 +90,12 @@ public class Server {
 
 
 	void OnIncomingData(ServerClient c, string data) {
-		Debug.Log(c.clientName + ": " + data);
+		Globals.DevConsole.print("Data recieved:: " + c.clientName + ": " + data);
 		Broadcast(data, clients);
 	}
 
 	void Broadcast(string data, List<ServerClient> cl) {
-		Debug.Log("Server: Broadcasting data:: " + data);
+		Globals.DevConsole.print("Server: Broadcasting data:: " + data);
 		foreach(ServerClient c in cl) {
 			try {
 				StreamWriter writer = new StreamWriter(c.tcp.GetStream());
@@ -103,7 +103,7 @@ public class Server {
 				writer.Flush();
 			}
 			catch (Exception e) {
-				Debug.Log("Write error: " +  e.Message + " to client " + c.clientName);
+				Globals.DevConsole.print("Write error: " +  e.Message + " to client " + c.clientName);
 			}
 		}
 	}

@@ -42,6 +42,6 @@ public class MappingContainer {
 			map.relation = reg4.Match(cell).Groups[2].ToString();
 			data.Add(map);
 		}
-		Debug.Log("Loaded "+data.Count+" Mappings.");
+		Globals.DevConsole.print("Loaded "+data.Count+" Mappings.");
 	}
 }

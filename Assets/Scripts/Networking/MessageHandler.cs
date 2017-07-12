@@ -4,17 +4,20 @@ using UnityEngine;
 using System.Text.RegularExpressions;
 
 public static class MessageHandler {
-	static void handle(string msg) {
-		Regex reg = new Regex(@"(.?*)<~>(.?*)<~>(.?*)");
+	public static void handle(string msg) {
+		Regex reg = new Regex(@"^#([\w\.\-]+)§([\w\.\-]+)&(.*?)$");
 		Match match = reg.Match(msg);
 		if(!match.Success) {
-			Debug.Log("Message from client not recognized.");
+			Globals.DevConsole.print("Could not recognize message: " + msg);
 			return;
 		}
 
-		string msg_type = match.Groups[0].ToString();
+		string msg_type = match.Groups[1].ToString();
 		switch(msg_type) {
 		case "txm" : {
+				string msg_sender = match.Groups[2].ToString();
+				string msg_content = match.Groups[3].ToString();
+				Globals.DevConsole.print(msg_content);
 				break;} //regular Textmessage
 		case "trs" : {
 				break;} //TerritoryState
@@ -22,10 +25,10 @@ public static class MessageHandler {
 	}
 
 	public static string encode(string regularMsg) {
-		return @"txm<~>" + Globals.InstancePlayerName + "<~>" + regularMsg;
+		return @"#txm§" + Globals.InstancePlayerName + "&" + regularMsg;
 	}
 
 	public static string encode(TerritoryState ts) {
-		return @"trs<~>" + ts.territoryName + "<~>" + ts.owner;
+		return @"#trs§" + ts.territoryName + "&" + ts.owner;
 	}
 }

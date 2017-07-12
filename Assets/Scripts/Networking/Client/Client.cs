@@ -26,7 +26,7 @@ public class Client {
 			socketReady = true;
 		}
 		catch (Exception e) {
-			Debug.Log("ERR: Could not create socket. " + e.Message);
+			Globals.DevConsole.print("ERR: Could not create socket. " + e.Message);
 		}
 	}
 
@@ -41,7 +41,8 @@ public class Client {
 	}
 
 	void OnIncomingData(string data) {
-		Debug.Log("Server: " + data);
+		Globals.DevConsole.print("Server: " + data);
+		MessageHandler.handle(data);
 		string txt = GameObject.Find("Output").GetComponent<Text>().text;
 		GameObject.Find("Output").GetComponent<Text>().text = txt + "\nServer: " + data;
 	}

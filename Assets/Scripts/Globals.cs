@@ -9,6 +9,7 @@ public class Globals : MonoBehaviour {
 	public static Globals Data;
 	public static Client InstanceClient;
 	public static Server InstanceServer;
+	public static DevConsoleController DevConsole;
 	public static bool InstanceIsHost = false;
 	public static string InstancePlayerName = "Player";
 
@@ -34,6 +35,7 @@ public class Globals : MonoBehaviour {
 		InstanceServer.Update();
 		InstanceClient.Update();
 		if(Input.GetKeyDown(KeyCode.S)) InstanceClient.Send("TESTING");
+		if(Input.GetKeyDown(KeyCode.Comma)) DevConsole.toggle();
 	}
 
 	public void sendToAllPlayers(string data) {
