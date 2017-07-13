@@ -20,6 +20,11 @@ public static class MessageHandler {
 				Globals.DevConsole.print(msg_content);
 				break;} //regular Textmessage
 		case "trs" : {
+				string ter_name = match.Groups[2].ToString();
+				string ter_owner = match.Groups[3].ToString();
+				TerritoryController t = GameObject.Find(ter_name).GetComponent<TerritoryController>();
+				TerritoryState newState = new TerritoryState(ter_name, ter_owner);
+				newState.Apply();
 				break;} //TerritoryState
 		}
 	}

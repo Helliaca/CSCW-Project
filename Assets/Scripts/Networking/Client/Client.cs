@@ -41,10 +41,8 @@ public class Client {
 	}
 
 	void OnIncomingData(string data) {
-		Globals.DevConsole.print("Server: " + data);
+		Globals.DevConsole.print("Received data from server: " + data);
 		MessageHandler.handle(data);
-		string txt = GameObject.Find("Output").GetComponent<Text>().text;
-		GameObject.Find("Output").GetComponent<Text>().text = txt + "\nServer: " + data;
 	}
 
 	public void Send(string data) {
