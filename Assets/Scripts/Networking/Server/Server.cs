@@ -33,6 +33,9 @@ public class Server {
 		}
 	}
 
+	public bool isActive() {
+		return serverStarted;
+	}
 
 	public void Update() {
 		if(!serverStarted) return;
