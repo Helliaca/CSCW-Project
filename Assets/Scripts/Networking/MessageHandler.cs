@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text.RegularExpressions;
+using System;
 
 public static class MessageHandler {
 	public static void handle(string msg) {
@@ -26,6 +27,11 @@ public static class MessageHandler {
 				TerritoryState newState = new TerritoryState(ter_name, ter_owner);
 				newState.Apply();
 				break;} //TerritoryState
+		case "spt" : {
+				string player_name = match.Groups[2].ToString();
+				string team_name = match.Groups[3].ToString();
+				Globals.getPlayerByName(player_name).team = (Globals.TEAMS) Enum.Parse(typeof(Globals.TEAMS), team_name);
+				break;} //Set Player Team
 		}
 	}
 
@@ -35,5 +41,9 @@ public static class MessageHandler {
 
 	public static string encode(TerritoryState ts) {
 		return @"#trs§" + ts.territoryName + "&" + ts.owner;
+	}
+
+	public static string encode(Globals.TEAMS newTeam) {
+		return @"#spt§" + Globals.InstancePlayerName + "&" + newTeam.ToString();
 	}
 }

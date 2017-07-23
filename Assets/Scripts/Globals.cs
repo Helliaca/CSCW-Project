@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Globals : MonoBehaviour {
 
-	public enum TEAMS {NONE, RED, BLUE};
+	public enum TEAMS {NONE, RED, BLUE, ORANGE, GREEN};
 
+	public static PlayerInfo InstancePlayer;
+	public static List<PlayerInfo> players;
 	public static Globals Data;
 	public static Client InstanceClient;
 	public static Server InstanceServer;
@@ -29,6 +31,9 @@ public class Globals : MonoBehaviour {
 	void Start () {
 		InstanceClient = new Client();
 		InstanceServer = new Server();
+		InstancePlayer = new PlayerInfo(InstancePlayerName);
+		players = new List<PlayerInfo>();
+		players.Add(InstancePlayer);
 	}
 
 	void Update () {
@@ -38,7 +43,10 @@ public class Globals : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.Comma)) DevConsole.toggle();
 	}
 
-	public void sendToAllPlayers(string data) {
-		
+	public static PlayerInfo getPlayerByName(string name) {
+		foreach(PlayerInfo p in Globals.players) {
+			if(p.name == name) return p;
+		}
+		return null;
 	}
 }
