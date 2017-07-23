@@ -8,6 +8,7 @@ public class MainMenuController : MonoBehaviour {
 
 	public InputField hostOverride;
 	public InputField portOverride;
+	public InputField playerName;
 	public Button startServerButton;
 	public Button joinServerButton;
 	public Transform serverRunningIndicator;
@@ -55,5 +56,8 @@ public class MainMenuController : MonoBehaviour {
 		SceneManager.LoadScene("Main");
 	}
 
+	public void changeName() {
+		Globals.InstancePlayerName = playerName.text;
+	}
 
 }
