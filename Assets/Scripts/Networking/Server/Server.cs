@@ -33,6 +33,16 @@ public class Server {
 		}
 	}
 
+	public void ShutDown() {
+		try {
+			server.Stop();
+			serverStarted = false;
+			Globals.DevConsole.print("Server shut down");
+		} catch (Exception e) {
+			Globals.DevConsole.print("Socket error: " + e.Message);
+		}
+	}
+
 	public bool isActive() {
 		return serverStarted;
 	}

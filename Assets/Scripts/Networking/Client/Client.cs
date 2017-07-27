@@ -30,6 +30,10 @@ public class Client {
 		}
 	}
 
+	public bool isConnected() {
+		return socketReady;
+	}
+
 	public void Update() {
 		if(socketReady) {
 			if(stream.DataAvailable) {

@@ -12,6 +12,7 @@ public class MainMenuController : MonoBehaviour {
 	public Button startServerButton;
 	public Button joinServerButton;
 	public Transform serverRunningIndicator;
+	public Transform LobbyButton;
 
 	// Use this for initialization
 	void Start () {
@@ -20,24 +21,30 @@ public class MainMenuController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		LobbyButton.gameObject.SetActive(Globals.InstanceClient.isConnected());
 		if(Globals.InstanceServer.isActive()) {
 			serverRunningIndicator.gameObject.SetActive(true);
-			startServerButton.enabled = false;
-			joinServerButton.enabled = false;
+			startServerButton.interactable = false;
+			joinServerButton.interactable = false;
+			hostOverride.interactable = false;
+			portOverride.interactable = false;
 		}
 		else {
 			serverRunningIndicator.gameObject.SetActive(false);
-			startServerButton.enabled = true;
-			joinServerButton.enabled = true;
+			startServerButton.interactable = true;
+			joinServerButton.interactable = true;
+			hostOverride.interactable = true;
+			portOverride.interactable = true;
 		}
 	}
 
 	public void startServer() {
 		Globals.InstanceServer.Initialize();
 		Globals.InstanceClient.ConnectToServer(); //Connect to own server
-		serverRunningIndicator.gameObject.SetActive(true);
-		startServerButton.enabled = false;
-		joinServerButton.enabled = false;
+	}
+
+	public void stopServer() {
+		Globals.InstanceServer.ShutDown();
 	}
 
 	public void connectToServer() {
