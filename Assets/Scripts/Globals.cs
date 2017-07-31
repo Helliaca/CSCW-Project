@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class Globals : MonoBehaviour {
@@ -13,7 +14,7 @@ public class Globals : MonoBehaviour {
 	public static Server InstanceServer;
 	public static DevConsoleController DevConsole;
 	public static bool InstanceIsHost = false;
-	public static string InstancePlayerName = "Player";
+	//public static string InstancePlayerName = "Player";
 
 	[HideInInspector]
 	public Transform hoverTerritory = null;
@@ -31,7 +32,7 @@ public class Globals : MonoBehaviour {
 	void Start () {
 		InstanceClient = new Client();
 		InstanceServer = new Server();
-		InstancePlayer = new PlayerInfo(InstancePlayerName);
+		InstancePlayer = new PlayerInfo();
 		players = new List<PlayerInfo>();
 		players.Add(InstancePlayer);
 	}
@@ -39,7 +40,6 @@ public class Globals : MonoBehaviour {
 	void Update () {
 		InstanceServer.Update();
 		InstanceClient.Update();
-		if(Input.GetKeyDown(KeyCode.S)) InstanceClient.Send("TESTING");
 		if(Input.GetKeyDown(KeyCode.Comma)) DevConsole.toggle();
 	}
 
@@ -48,5 +48,14 @@ public class Globals : MonoBehaviour {
 			if(p.name == name) return p;
 		}
 		return null;
+	}
+
+	public static void startGame() {
+		if(Globals.InstancePlayer.state == PlayerInfo.STATUS.Ingame) {
+			Globals.DevConsole.print("Requested start Game but Player is already ingame.");
+			return;
+		}
+		Globals.InstancePlayer.state = PlayerInfo.STATUS.Ingame;
+		SceneManager.LoadScene("Main");
 	}
 }

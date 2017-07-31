@@ -32,11 +32,19 @@ public static class MessageHandler {
 				string team_name = match.Groups[3].ToString();
 				Globals.getPlayerByName(player_name).team = (Globals.TEAMS) Enum.Parse(typeof(Globals.TEAMS), team_name);
 				break;} //Set Player Team
+		case "evt" : {
+				string event_name = match.Groups[2].ToString();
+				switch(event_name) {
+				case "startGame" : {
+						Globals.startGame();
+						break;}
+				}
+				break;} //Start the game
 		}
 	}
 
 	public static string encode(string regularMsg) {
-		return @"#txm§" + Globals.InstancePlayerName + "&" + regularMsg;
+		return @"#txm§" + Globals.InstancePlayer.name + "&" + regularMsg;
 	}
 
 	public static string encode(TerritoryState ts) {
@@ -44,6 +52,10 @@ public static class MessageHandler {
 	}
 
 	public static string encode(Globals.TEAMS newTeam) {
-		return @"#spt§" + Globals.InstancePlayerName + "&" + newTeam.ToString();
+		return @"#spt§" + Globals.InstancePlayer.name + "&" + newTeam.ToString();
+	}
+
+	public static string encodeEvent(string evt, string parameter="") {
+		return @"#evt§" + evt + "&" + parameter;
 	}
 }

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenuController : MonoBehaviour {
@@ -23,6 +22,7 @@ public class MainMenuController : MonoBehaviour {
 	void Update () {
 		LobbyButton.gameObject.SetActive(Globals.InstanceClient.isConnected());
 		if(Globals.InstanceServer.isActive()) {
+			Globals.InstancePlayer.setHost(true);
 			serverRunningIndicator.gameObject.SetActive(true);
 			startServerButton.interactable = false;
 			joinServerButton.interactable = false;
@@ -30,6 +30,7 @@ public class MainMenuController : MonoBehaviour {
 			portOverride.interactable = false;
 		}
 		else {
+			Globals.InstancePlayer.setHost(false);
 			serverRunningIndicator.gameObject.SetActive(false);
 			startServerButton.interactable = true;
 			joinServerButton.interactable = true;
@@ -60,11 +61,12 @@ public class MainMenuController : MonoBehaviour {
 	}
 
 	public void startGame() {
-		SceneManager.LoadScene("Main");
+		if(Globals.InstancePlayer.isHost())
+			Globals.InstanceClient.Send(MessageHandler.encodeEvent("startGame"));
 	}
 
 	public void changeName() {
-		Globals.InstancePlayerName = playerName.text;
+		Globals.InstancePlayer.name = playerName.text;
 	}
 
 }

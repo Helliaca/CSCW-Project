@@ -5130,6 +5130,12 @@ GameObject:
   m_PrefabParentObject: {fileID: 1127761320295918, guid: 048a146617019dd4f9315a35fc25d799,
     type: 2}
   m_PrefabInternal: {fileID: 486629750}
+--- !u!114 &973205431 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114382599075047084, guid: 048a146617019dd4f9315a35fc25d799,
+    type: 2}
+  m_PrefabInternal: {fileID: 486629750}
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!114 &973205433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5141,7 +5147,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ea25a3f4f3ce5344bcbe7bcfd334306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unicode: f011
+  t: {fileID: 973205431}
+  unicode: 66303131
 --- !u!114 &980303241 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114759681492303900, guid: 048a146617019dd4f9315a35fc25d799,
@@ -6058,7 +6065,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ea25a3f4f3ce5344bcbe7bcfd334306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unicode: f015
+  t: {fileID: 1196782687}
+  unicode: 66303135
+--- !u!114 &1196782687 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114457319207031712, guid: 4dab15df5bcf0bd499d555b4885b2993,
+    type: 2}
+  m_PrefabInternal: {fileID: 74987972}
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &1215408243
 GameObject:
   m_ObjectHideFlags: 0
@@ -8436,6 +8450,16 @@ Prefab:
     - target: {fileID: 1519856515083362, guid: 048a146617019dd4f9315a35fc25d799, type: 2}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114759681492303900, guid: 048a146617019dd4f9315a35fc25d799,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2028054786}
+    - target: {fileID: 114759681492303900, guid: 048a146617019dd4f9315a35fc25d799,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: startGame
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 048a146617019dd4f9315a35fc25d799, type: 2}
