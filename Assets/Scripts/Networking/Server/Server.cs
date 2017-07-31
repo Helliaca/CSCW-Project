@@ -16,7 +16,7 @@ public class Server {
 	public int port = 6321;
 
 
-	public void Initialize(int port = 6321) {
+	public bool Initialize(int port = 6321) {
 		this.port = port;
 		clients = new List<ServerClient>();
 		disconnectList = new List<ServerClient>();
@@ -27,10 +27,11 @@ public class Server {
 
 			StartListening();
 			serverStarted = true;
-			Globals.DevConsole.print("Server started on port " + port);
 		} catch (Exception e) {
 			Globals.DevConsole.print("Socket error: " + e.Message);
+			return false;
 		}
+		return true;
 	}
 
 	public void ShutDown() {
@@ -79,11 +80,11 @@ public class Server {
 
 	void AcceptTcpClient(IAsyncResult ar) {
 		TcpListener listener = (TcpListener)ar.AsyncState;
-		clients.Add(new ServerClient(listener.EndAcceptTcpClient(ar)));
+		addClient(new ServerClient(listener.EndAcceptTcpClient(ar)));
 		StartListening();
 
 		//Send message to everyone that someone connected
-		Broadcast(MessageHandler.encode(clients[clients.Count-1].clientName + " has connected"), clients);
+		Broadcast(MessageHandler.encode(clients[clients.Count-1].player.name + " has connected"), clients);
 	}
 
 
@@ -103,7 +104,7 @@ public class Server {
 
 
 	void OnIncomingData(ServerClient c, string data) {
-		Globals.DevConsole.print("Data recieved:: " + c.clientName + ": " + data);
+		Globals.DevConsole.print("Data recieved:: " + c.player.name + ": " + data);
 		Broadcast(data, clients);
 	}
 
@@ -116,9 +117,17 @@ public class Server {
 				writer.Flush();
 			}
 			catch (Exception e) {
-				Globals.DevConsole.print("Write error: " +  e.Message + " to client " + c.clientName);
+				Globals.DevConsole.print("Write error: " +  e.Message + " to client " + c.player.name);
 			}
 		}
+	}
+
+	private void addClient(ServerClient c) {
+		clients.Add(c);
+	}
+
+	public int getPort() {
+		return port;
 	}
 
 }
@@ -127,10 +136,10 @@ public class Server {
 
 public class ServerClient {
 	public TcpClient tcp;
-	public string clientName;
+	public PlayerInfo player;
 
 	public ServerClient(TcpClient clientSocket) {
-		clientName = "Guest";
+		player = new PlayerInfo();
 		tcp = clientSocket;
 	}
 }

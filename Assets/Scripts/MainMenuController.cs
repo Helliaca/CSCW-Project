@@ -20,8 +20,8 @@ public class MainMenuController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		LobbyButton.gameObject.SetActive(Globals.InstanceClient.isConnected());
-		if(Globals.InstanceServer.isActive()) {
+		LobbyButton.gameObject.SetActive(Globals.InstanceNetwork.isConnected());
+		if(Globals.InstanceNetwork.isHosting()) {
 			Globals.InstancePlayer.setHost(true);
 			serverRunningIndicator.gameObject.SetActive(true);
 			startServerButton.interactable = false;
@@ -40,12 +40,12 @@ public class MainMenuController : MonoBehaviour {
 	}
 
 	public void startServer() {
-		Globals.InstanceServer.Initialize();
-		Globals.InstanceClient.ConnectToServer(); //Connect to own server
+		Globals.InstanceNetwork.CreateServer();
+		Globals.InstanceNetwork.ConnectToServer(); //Connect to own server
 	}
 
 	public void stopServer() {
-		Globals.InstanceServer.ShutDown();
+		Globals.InstanceNetwork.StopServer();
 	}
 
 	public void connectToServer() {
@@ -57,12 +57,12 @@ public class MainMenuController : MonoBehaviour {
 		if(h!="") host = h;
 		int.TryParse(portOverride.text, out p);
 		if(p!=0) port = p;
-		Globals.InstanceClient.ConnectToServer(host, port);
+		Globals.InstanceNetwork.ConnectToServer(host, port);
 	}
 
 	public void startGame() {
 		if(Globals.InstancePlayer.isHost())
-			Globals.InstanceClient.Send(MessageHandler.encodeEvent("startGame"));
+			Globals.InstanceNetwork.SendToServer(MessageHandler.encodeEvent("startGame"));
 	}
 
 	public void changeName() {

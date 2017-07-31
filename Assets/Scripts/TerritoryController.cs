@@ -14,14 +14,14 @@ public class TerritoryController : MonoBehaviour {
 	void OnMouseEnter() {
 		Renderer rend = GetComponent<Renderer>();
 		rend.material.SetColor("_Color", color_selected);
-		Globals.Data.hoverTerritory = this.transform;
+		Globals.InstanceGame.hoverTerritory = this.transform;
 	}
 
 	void OnMouseExit() {
 		Renderer rend = GetComponent<Renderer>();
 		if(owner==Globals.TEAMS.NONE) rend.material.SetColor("_Color", color_default);
 		else rend.material.SetColor("_Color", color_claimed);
-		Globals.Data.hoverTerritory = null;
+		Globals.InstanceGame.hoverTerritory = null;
 	}
 
 	public void setOwner(Globals.TEAMS owner) {
@@ -34,7 +34,7 @@ public class TerritoryController : MonoBehaviour {
 	}
 
 	public void UpdateForAllPlayers() {
-		Globals.InstanceClient.Send(MessageHandler.encode(getState())); //Send new TerritoryState to Server
+		Globals.InstanceNetwork.SendToServer(MessageHandler.encode(getState())); //Send new TerritoryState to Server
 	}
 
 	public TerritoryState getState() {

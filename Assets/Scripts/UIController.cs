@@ -15,11 +15,11 @@ public class UIController : MonoBehaviour {
 	}
 
 	public void submitEM() {
-		if(Globals.Data.selectedTerritory) {
-			var tc = Globals.Data.selectedTerritory.GetComponent<TerritoryController>();
+		if(Globals.InstanceGame.selectedTerritory) {
+			var tc = Globals.InstanceGame.selectedTerritory.GetComponent<TerritoryController>();
 			tc.setOwner(Globals.TEAMS.RED);
 			tc.UpdateForAllPlayers();
-			Globals.Data.EntityMatchWindow.gameObject.SetActive(false);
+			Globals.InstanceGame.EntityMatchWindow.gameObject.SetActive(false);
 		}
 		else Globals.DevConsole.print("User submitted EM without selecting territory.");
 	}

@@ -30,7 +30,7 @@ public static class MessageHandler {
 		case "spt" : {
 				string player_name = match.Groups[2].ToString();
 				string team_name = match.Groups[3].ToString();
-				Globals.getPlayerByName(player_name).team = (Globals.TEAMS) Enum.Parse(typeof(Globals.TEAMS), team_name);
+				Globals.getPlayerByName(player_name).team = (Globals.TEAMS) Enum.Parse(typeof(Globals.TEAMS), team_name); //TODO: Differentiating players by their name is terrible
 				break;} //Set Player Team
 		case "evt" : {
 				string event_name = match.Groups[2].ToString();
@@ -58,4 +58,12 @@ public static class MessageHandler {
 	public static string encodeEvent(string evt, string parameter="") {
 		return @"#evt§" + evt + "&" + parameter;
 	}
+
+
+	/*
+	 * Procedure works as following:
+	 *  1. Accept any connection and send them a unique id.
+	 *  2. Hold connection for 20seconds, if no response drop connection
+	 *  3. If response with id and playername -> confirm new player
+	 */
 }

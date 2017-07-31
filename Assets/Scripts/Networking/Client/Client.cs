@@ -14,8 +14,8 @@ public class Client {
 	private StreamWriter writer;
 	private StreamReader reader;
 
-	public void ConnectToServer(string host = "127.0.0.1", int port = 6321) {
-		if(socketReady) return; //Already connected -> ignore
+	public bool ConnectToServer(string host, int port) {
+		if(socketReady) return false; //Already connected -> ignore
 
 		//Create the socket
 		try {
@@ -27,7 +27,17 @@ public class Client {
 		}
 		catch (Exception e) {
 			Globals.DevConsole.print("ERR: Could not create socket. " + e.Message);
+			return false;
 		}
+		return true;
+	}
+
+	public void Disconnect() {
+		writer.Close();
+		reader.Close();
+		socket.Close();
+		socketReady = false;
+		Globals.DevConsole.print("Disconnected from Server");
 	}
 
 	public bool isConnected() {
@@ -45,7 +55,6 @@ public class Client {
 	}
 
 	void OnIncomingData(string data) {
-		Globals.DevConsole.print("Received data from server: " + data);
 		MessageHandler.handle(data);
 	}
 

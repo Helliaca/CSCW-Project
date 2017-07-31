@@ -10,17 +10,10 @@ public class Globals : MonoBehaviour {
 	public static PlayerInfo InstancePlayer;
 	public static List<PlayerInfo> players;
 	public static Globals Data;
-	public static Client InstanceClient;
-	public static Server InstanceServer;
+	public static NetworkManager InstanceNetwork;
+	public static GameManager InstanceGame;
 	public static DevConsoleController DevConsole;
 	public static bool InstanceIsHost = false;
-	//public static string InstancePlayerName = "Player";
-
-	[HideInInspector]
-	public Transform hoverTerritory = null;
-	public Transform selectedTerritory = null;
-
-	public Transform EntityMatchWindow;
 
 	void Awake()
 	{
@@ -30,16 +23,12 @@ public class Globals : MonoBehaviour {
 	}
 		
 	void Start () {
-		InstanceClient = new Client();
-		InstanceServer = new Server();
 		InstancePlayer = new PlayerInfo();
 		players = new List<PlayerInfo>();
 		players.Add(InstancePlayer);
 	}
 
 	void Update () {
-		InstanceServer.Update();
-		InstanceClient.Update();
 		if(Input.GetKeyDown(KeyCode.Comma)) DevConsole.toggle();
 	}
 

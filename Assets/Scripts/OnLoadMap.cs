@@ -8,7 +8,7 @@ public class OnLoadMap : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Globals.Data.EntityMatchWindow = emwin;
+		Globals.InstanceGame.EntityMatchWindow = emwin;
 		
 	}
 	

@@ -825,6 +825,7 @@ GameObject:
   m_Component:
   - component: {fileID: 208171976}
   - component: {fileID: 208171975}
+  - component: {fileID: 208171977}
   m_Layer: 0
   m_Name: GameMaster
   m_TagString: Untagged
@@ -843,9 +844,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f353893b6a847fa44ab3415197546089, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverTerritory: {fileID: 0}
-  selectedTerritory: {fileID: 0}
-  EntityMatchWindow: {fileID: 0}
 --- !u!4 &208171976
 Transform:
   m_ObjectHideFlags: 0
@@ -859,6 +857,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &208171977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 208171974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ca54fe4bed2cb84e9c44a1d7127c955, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &256030997
 Prefab:
   m_ObjectHideFlags: 0

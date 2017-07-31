@@ -24,7 +24,7 @@ public class TeamPanelController : MonoBehaviour {
 	}
 
 	public void joinTeam() {
-		Globals.InstanceClient.Send(MessageHandler.encode(team));
+		Globals.InstanceNetwork.SendToServer(MessageHandler.encode(team));
 	}
 
 	void UpdatePlayerList() {
