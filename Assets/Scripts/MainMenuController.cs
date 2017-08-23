@@ -12,6 +12,10 @@ public class MainMenuController : MonoBehaviour {
 	public Button joinServerButton;
 	public Transform serverRunningIndicator;
 	public Transform LobbyButton;
+	public Transform ProceduralMapPanel;
+	public Transform RegularMapPanel;
+	public Dropdown MapSelector;
+	public InputField ProceduralMapSeedInput;
 
 	// Use this for initialization
 	void Start () {
@@ -61,12 +65,42 @@ public class MainMenuController : MonoBehaviour {
 	}
 
 	public void startGame() {
-		if(Globals.InstancePlayer.isHost())
+		if(Globals.InstancePlayer.isHost()) {
+			if(ProceduralMapPanel.gameObject.activeInHierarchy) {
+				Globals.selectedMap = Globals.MAPS.PROCEDURAL;
+				Globals.proceduralMapSeed = ProceduralMapSeedInput.text;
+			}
+			else {
+				if(MapSelector.value==0) Globals.selectedMap = Globals.MAPS.MAP1;
+				else if(MapSelector.value==1) Globals.selectedMap = Globals.MAPS.MAP2;
+				else {Globals.DevConsole.print("Could not retrieve selected map.");}
+			}
 			Globals.InstanceNetwork.SendToServer(MessageHandler.encodeEvent("startGame"));
+		}
 	}
 
 	public void changeName() {
 		Globals.InstancePlayer.name = playerName.text;
+	}
+
+	public void toggleMapPanel() {
+		if(ProceduralMapPanel.gameObject.activeInHierarchy) {
+			ProceduralMapPanel.gameObject.SetActive(false);
+			RegularMapPanel.gameObject.SetActive(true);
+		}
+		else {
+			ProceduralMapPanel.gameObject.SetActive(true);
+			RegularMapPanel.gameObject.SetActive(false);
+		}
+	}
+
+	public void randomizeMapSeed() {
+		int radius, territores, clusters, seed;
+		radius = Random.Range(0, 30);
+		territores = Random.Range(10, 100);
+		clusters = Random.Range(1, 30);
+		seed = Random.Range(int.MinValue, int.MaxValue);
+		ProceduralMapSeedInput.text = radius + "." + territores + "." + clusters + "." + seed;
 	}
 
 }

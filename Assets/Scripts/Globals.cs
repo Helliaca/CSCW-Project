@@ -6,6 +6,7 @@ using UnityEngine;
 public class Globals : MonoBehaviour {
 
 	public enum TEAMS {NONE, RED, BLUE, ORANGE, GREEN};
+	public enum MAPS {MAP1, MAP2, PROCEDURAL};
 
 	public static PlayerInfo InstancePlayer;
 	public static List<PlayerInfo> players;
@@ -14,6 +15,9 @@ public class Globals : MonoBehaviour {
 	public static GameManager InstanceGame;
 	public static DevConsoleController DevConsole;
 	public static bool InstanceIsHost = false;
+
+	public static string proceduralMapSeed = "1";
+	public static MAPS selectedMap = MAPS.MAP1;
 
 	void Awake()
 	{
