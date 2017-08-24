@@ -7,4 +7,6 @@ public class Mapping {
 	public string entity2;
 	public float measure;
 	public string relation;
+
+	public float priority;
 }
