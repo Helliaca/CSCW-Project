@@ -16,6 +16,21 @@ public class Hexagon : MonoBehaviour {
 
 	}
 
+	public bool isNeighbourOf(Hexagon n) {
+		int qOffset = n.pos.q - this.pos.q;
+		int rOffset = n.pos.r - this.pos.r;
+		if((qOffset==0 && rOffset==1) ||
+			(qOffset==1 && rOffset==0) ||
+			(qOffset==0 && rOffset==-1) ||
+			(qOffset==-1 && rOffset==0) ||
+			(qOffset==1 && rOffset==-1) ||
+			(qOffset==-1 && rOffset==1)
+		) {
+			return true;
+		}
+		return false;
+	}
+
 	public void toPosition(AxialCoordinate pos) {
 		this.pos = pos;
 		Vector2 worldPos = pos.toWorld(size);

@@ -9,19 +9,43 @@ public class TerritoryController : MonoBehaviour {
 	private static Color color_claimed = new Color(1f, 0.5f, 0.5f, 1f);
 
 	public Globals.TEAMS owner = Globals.TEAMS.NONE;
+	public Globals.TEAMS baseOf = Globals.TEAMS.NONE;
 	public TerritoryController[] Neighbours;
 
+	private cakeslice.Outline OutlineEffect;
+
+	void Start() {
+		OutlineEffect = transform.GetComponent<cakeslice.Outline>();
+		OutlineEffect.enabled = false;
+		owner = baseOf;
+		if(baseOf!=Globals.TEAMS.NONE) {
+			setColor(ColorScheme.getColorOf(ColorScheme.color_context.BASE, baseOf));
+			GameObject fl = Instantiate(Globals.InstanceGame.flagPrefab, transform.GetComponent<Renderer>().bounds.center, Globals.InstanceGame.flagPrefab.transform.rotation);
+			fl.GetComponent<FlagController>().setColor(ColorScheme.getColorOf(ColorScheme.color_context.FLAG, baseOf));
+			foreach(TerritoryController tc in Neighbours) {
+				tc.setColor(ColorScheme.getColorOf(ColorScheme.color_context.BORDER, owner));
+			}
+		}
+	}
+
 	void OnMouseEnter() {
-		Renderer rend = GetComponent<Renderer>();
-		rend.material.SetColor("_Color", color_selected);
-		Globals.InstanceGame.hoverTerritory = this.transform;
+		//Renderer rend = GetComponent<Renderer>();
+		//rend.material.SetColor("_Color", color_selected);
+		//Globals.InstanceGame.hoverTerritory = this.transform;
+		OutlineEffect.enabled = true;
 	}
 
 	void OnMouseExit() {
+		//Renderer rend = GetComponent<Renderer>();
+		//if(owner==Globals.TEAMS.NONE) rend.material.SetColor("_Color", color_default);
+		//else rend.material.SetColor("_Color", color_claimed);
+		//Globals.InstanceGame.hoverTerritory = null;
+		OutlineEffect.enabled = false;
+	}
+
+	public void setColor(Color c) {
 		Renderer rend = GetComponent<Renderer>();
-		if(owner==Globals.TEAMS.NONE) rend.material.SetColor("_Color", color_default);
-		else rend.material.SetColor("_Color", color_claimed);
-		Globals.InstanceGame.hoverTerritory = null;
+		rend.material.SetColor("_Color", c);
 	}
 
 	public void setOwner(Globals.TEAMS owner) {
@@ -43,5 +67,15 @@ public class TerritoryController : MonoBehaviour {
 
 	public void setState(TerritoryState ts) {
 		setOwner(ts.owner);
+	}
+
+	public void addNeighbour(TerritoryController n) {
+		TerritoryController[] newNArray = new TerritoryController[Neighbours.Length+1];
+		for(int i=0; i<Neighbours.Length; i++) {
+			if(n==Neighbours[i]) return; //Element already in list. Return
+			newNArray[i] = Neighbours[i];
+		}
+		newNArray[newNArray.Length - 1] = n;
+		Neighbours = newNArray;
 	}
 }

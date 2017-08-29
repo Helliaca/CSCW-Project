@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour {
 	[HideInInspector]
 	public Transform hoverTerritory = null;
 	public Transform selectedTerritory = null;
+	public GameObject flagPrefab;
 
 	public Transform EntityMatchWindow;
 

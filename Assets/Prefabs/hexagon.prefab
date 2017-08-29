@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4219206112482004}
   - component: {fileID: 114027273423235904}
+  - component: {fileID: 114663292838533260}
   m_Layer: 0
   m_Name: Hexagon
   m_TagString: Untagged
@@ -137,3 +138,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: 1.02
+--- !u!114 &114663292838533260
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1065759684383906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0068f45eb28d12d4e922e3ca6cd38967, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: 0
+  Neighbours: []

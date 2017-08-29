@@ -37,6 +37,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4028617792427222}
+  - component: {fileID: 114797730581535904}
   m_Layer: 0
   m_Name: flag
   m_TagString: Untagged
@@ -196,3 +197,14 @@ MonoBehaviour:
   speed: 0.003
   waveAmount: 700
   dampening: 0.01
+--- !u!114 &114797730581535904
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1648868322447918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de0762d0a2ffd93438afe7e2a9cfc317, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

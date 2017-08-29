@@ -10,14 +10,19 @@ public class ProceduralHexGenerator : MonoBehaviour {
 	public List<AxialCoordinate> occupied;
 
 	private int radius, terrAmount, clusterAmount, RngSeed;
+	private Transform map_Object;
+	private List<Hexagon> territory_list;
 
 	List<Hexagon> queue;
 	Cluster[] clusters;
 	int counter = 0;
 
 	public void GenerateFromSeed(string seed, Transform origin) {
+		territory_list = new List<Hexagon>();
 		parseSeed(seed); //Set variables radius, terrAmount, clusterAmount and RngSeed from string
 		UnityEngine.Random.InitState(RngSeed); //Initialize deterministic rng
+
+		map_Object = origin.parent;
 
 		occupied = new List<AxialCoordinate>();
 		clusters = new Cluster[clusterAmount];
@@ -28,11 +33,13 @@ public class ProceduralHexGenerator : MonoBehaviour {
 		}
 
 		Hexagon first = origin.GetComponent<Hexagon>();
+		territory_list.Add(first);
 		first.toPosition(new AxialCoordinate(0, 0, origin.position.y));
 		occupied.Add(first.pos);
 		queue.Add(first);
 
 		for(int i=0; i<terrAmount; i++) placeNewHexagon();
+		setAllNeighbours();
 	}
 
 	private void parseSeed(string seed) {
@@ -60,9 +67,12 @@ public class ProceduralHexGenerator : MonoBehaviour {
 				queue.Add(current); //cause its not sated
 				counter++;
 				Hexagon newHex = (Instantiate(hexagonPrefab) as GameObject).GetComponent<Hexagon>();
-				newHex.toPosition(current.pos.next(dir));
-				occupied.Add(newHex.pos);
-				queue.Add(newHex);
+				territory_list.Add(newHex);				//Add to list of all territories
+				newHex.gameObject.name = "territory_" + counter;	//Assign unique name
+				newHex.transform.SetParent(map_Object);			 	//Set as child of map object
+				newHex.toPosition(current.pos.next(dir));			//Move to its position
+				occupied.Add(newHex.pos);							//Set the position as occupied
+				queue.Add(newHex);									//Add it to the queue
 				return;
 			}
 		}
@@ -87,6 +97,16 @@ public class ProceduralHexGenerator : MonoBehaviour {
 			if(c.q == place.q && c.r == place.r) return true;
 		}
 		return false;
+	}
+
+	void setAllNeighbours() {
+		foreach(Hexagon terr in territory_list) {
+			foreach(Hexagon terr_j in territory_list) {
+				if(terr.isNeighbourOf(terr_j)) {
+					terr.transform.GetComponent<TerritoryController>().addNeighbour(terr_j.transform.GetComponent<TerritoryController>());
+				}
+			}
+		}
 	}
 
 	void OnDrawGizmos() {

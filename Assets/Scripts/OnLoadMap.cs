@@ -16,6 +16,9 @@ public class OnLoadMap : MonoBehaviour {
 		if(Globals.selectedMap == Globals.MAPS.PROCEDURAL) {
 			GameObject gen = Instantiate(ProceduralGenerator);
 			GameObject origin = Instantiate(HexagonPrefab, Vector3.zero, Quaternion.identity);
+			origin.name = "territory_origin";
+			GameObject container = new GameObject("map_proc");
+			origin.transform.SetParent(container.transform);
 			gen.GetComponent<ProceduralHexGenerator>().GenerateFromSeed(Globals.proceduralMapSeed, origin.transform);
 		}
 		else {
