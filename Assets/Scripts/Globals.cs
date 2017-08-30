@@ -51,4 +51,12 @@ public class Globals : MonoBehaviour {
 		Globals.InstancePlayer.state = PlayerInfo.STATUS.Ingame;
 		SceneManager.LoadScene("Main");
 	}
+
+	public static int getUniquePlayerId() {
+		List<int> ids = new List<int>();
+		foreach(PlayerInfo pi in players) ids.Add(pi.id);
+		int id = 0;
+		while(ids.Contains(id)) id++;
+		return id;
+	}
 }

@@ -11,7 +11,17 @@ public class TerritoryController : MonoBehaviour {
 	public Globals.TEAMS owner = Globals.TEAMS.NONE;
 	public Globals.TEAMS baseOf = Globals.TEAMS.NONE;
 	public TerritoryController[] Neighbours;
+	public bool available {
+		set {
+			_available = value;
+		}
+		get {
+			if(owner!=Globals.TEAMS.NONE) return false;
+			return _available;
+		}
+	}
 
+	private bool _available = false; 
 	private cakeslice.Outline OutlineEffect;
 
 	void Start() {
@@ -24,6 +34,7 @@ public class TerritoryController : MonoBehaviour {
 			fl.GetComponent<FlagController>().setColor(ColorScheme.getColorOf(ColorScheme.color_context.FLAG, baseOf));
 			foreach(TerritoryController tc in Neighbours) {
 				tc.setColor(ColorScheme.getColorOf(ColorScheme.color_context.BORDER, owner));
+				if(Globals.InstancePlayer.team==owner) tc.available = true;
 			}
 		}
 	}
@@ -31,15 +42,15 @@ public class TerritoryController : MonoBehaviour {
 	void OnMouseEnter() {
 		//Renderer rend = GetComponent<Renderer>();
 		//rend.material.SetColor("_Color", color_selected);
-		//Globals.InstanceGame.hoverTerritory = this.transform;
-		OutlineEffect.enabled = true;
+		Globals.InstanceGame.hoverTerritory = this.transform;
+		if(available) OutlineEffect.enabled = true;
 	}
 
 	void OnMouseExit() {
 		//Renderer rend = GetComponent<Renderer>();
 		//if(owner==Globals.TEAMS.NONE) rend.material.SetColor("_Color", color_default);
 		//else rend.material.SetColor("_Color", color_claimed);
-		//Globals.InstanceGame.hoverTerritory = null;
+		Globals.InstanceGame.hoverTerritory = null;
 		OutlineEffect.enabled = false;
 	}
 

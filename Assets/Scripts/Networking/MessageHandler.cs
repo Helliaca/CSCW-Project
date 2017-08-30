@@ -32,6 +32,18 @@ public static class MessageHandler {
 				string team_name = match.Groups[3].ToString();
 				Globals.getPlayerByName(player_name).team = (Globals.TEAMS) Enum.Parse(typeof(Globals.TEAMS), team_name); //TODO: Differentiating players by their name is terrible
 				break;} //Set Player Team
+		case "uid" : {
+				Globals.InstanceNetwork.gotPlayerId(int.Parse(match.Groups[2].ToString()));
+				break;} //Receive player id froms erver
+		case "con" : {
+				if(!Globals.InstanceNetwork.isHosting()) {
+					Globals.DevConsole.print("Confrimed player connection recevied while not hosting game");
+					return;
+				}
+				PlayerInfo player = new PlayerInfo(match.Groups[3].ToString());
+				player.id = int.Parse(match.Groups[2].ToString());
+				Globals.players.Add(player);
+				break;} //Confrim new connected player
 		case "evt" : {
 				string event_name = match.Groups[2].ToString();
 				switch(event_name) {
@@ -59,11 +71,11 @@ public static class MessageHandler {
 		return @"#evt§" + evt + "&" + parameter;
 	}
 
+	public static string encode(int uniqueId) {
+		return @"#uid§" + uniqueId + "&empty";
+	}
 
-	/*
-	 * Procedure works as following:
-	 *  1. Accept any connection and send them a unique id.
-	 *  2. Hold connection for 20seconds, if no response drop connection
-	 *  3. If response with id and playername -> confirm new player
-	 */
+	public static string encodeConfrimConnection(int id, string playerName) {
+		return @"#con§" + id + "&" + playerName;
+	}
 }

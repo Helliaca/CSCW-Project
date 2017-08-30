@@ -11,7 +11,7 @@ public class OnLoadMap : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//Globals.InstanceGame.EntityMatchWindow = emwin;
+		Globals.InstanceGame.EntityMatchWindow = emwin;
 
 		if(Globals.selectedMap == Globals.MAPS.PROCEDURAL) {
 			GameObject gen = Instantiate(ProceduralGenerator);

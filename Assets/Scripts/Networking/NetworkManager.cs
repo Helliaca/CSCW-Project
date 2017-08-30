@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class NetworkManager : MonoBehaviour {
 
 	public static Client InstanceClient;
 	public static Server InstanceServer;
+
+	private int? playerId = null;
 
 	void Awake() {
 		if(Globals.InstanceNetwork != null) Destroy(this);
@@ -46,8 +49,10 @@ public class NetworkManager : MonoBehaviour {
 	public void ConnectToServer(string host = "127.0.0.1", int port = 6321) {
 		if(!InstanceClient.ConnectToServer(host, port)) 
 			Globals.DevConsole.print("Failed to Connect to Server: " + host + ":" + port);
-		else
+		else {
 			Globals.DevConsole.print("Connection Established to Server: " + host + ":" + port);
+			StartCoroutine(makeConnection());
+		}
 	}
 
 	public void CreateServer() {
@@ -60,12 +65,15 @@ public class NetworkManager : MonoBehaviour {
 		InstanceClient.Send(msg);
 	}
 
-	void makeConnection() {
-		/*
-		 * Connect to server		Accept connection
-		 * wait for new id->drop	send them unqiue id
-		 * set new id				Hold connection -> drop if nothing
-		 * send id playername		Confirm new player connected
-		 */
+	public void gotPlayerId(int id) {
+		playerId = id;
+	}
+
+	IEnumerator makeConnection() {
+		yield return new WaitUntil(() => playerId!=null);
+		//Got playerId from server
+		Globals.InstancePlayer.id = (int)playerId;
+		playerId = null;
+		Globals.InstanceNetwork.SendToServer(MessageHandler.encodeConfrimConnection(Globals.InstancePlayer.id, Globals.InstancePlayer.name));
 	}
 }

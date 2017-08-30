@@ -7,10 +7,10 @@ public class PlayerInfo {
 	public enum STATUS {Idle, Ingame};
 
 	public STATUS state;
-	Globals.TEAMS _team;
+	Globals.TEAMS _team = Globals.TEAMS.NONE;
 	string _name;
 	static int idcounter = 0;
-	int id;
+	public int id;
 	bool host = false;
 
 	public Globals.TEAMS team {
@@ -31,10 +31,10 @@ public class PlayerInfo {
 		}
 	}
 
-	public PlayerInfo(string name = "Player") {
+	public PlayerInfo(string name = "Player", int id = 0) {
 		state = STATUS.Idle;
 		this.name = name;
-		id = ++idcounter;
+		this.id = id;
 	}
 
 	public bool isHost() {

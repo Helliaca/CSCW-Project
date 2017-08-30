@@ -80,11 +80,15 @@ public class Server {
 
 	void AcceptTcpClient(IAsyncResult ar) {
 		TcpListener listener = (TcpListener)ar.AsyncState;
-		addClient(new ServerClient(listener.EndAcceptTcpClient(ar)));
+		ServerClient newClient = new ServerClient(listener.EndAcceptTcpClient(ar));
+		addClient(newClient);
 		StartListening();
 
 		//Send message to everyone that someone connected
 		Broadcast(MessageHandler.encode(clients[clients.Count-1].player.name + " has connected"), clients);
+
+		//Send client unique id
+		SendToClient(MessageHandler.encode(Globals.getUniquePlayerId()), newClient);
 	}
 
 
@@ -119,6 +123,17 @@ public class Server {
 			catch (Exception e) {
 				Globals.DevConsole.print("Write error: " +  e.Message + " to client " + c.player.name);
 			}
+		}
+	}
+
+	void SendToClient(string data, ServerClient cl) {
+		try {
+			StreamWriter writer = new StreamWriter(cl.tcp.GetStream());
+			writer.WriteLine(data);
+			writer.Flush();
+		}
+		catch (Exception e) {
+			Globals.DevConsole.print("Write error: " +  e.Message + " to client " + cl.player.name);
 		}
 	}
 
